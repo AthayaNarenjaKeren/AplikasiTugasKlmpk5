@@ -1,0 +1,134 @@
+/* Font dan reset */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+  }
+  
+  /* Container utama */
+  .container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    background-color: #007bff;
+    color: white;
+    padding: 30px 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+  }
+  
+  .sidebar h2 {
+    margin-top: 0;
+    font-size: 24px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin: 20px 0;
+  }
+  
+  .sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .sidebar ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Main konten */
+  .main {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    gap: 40px;
+  }
+  
+  /* Daftar tugas */
+  .task-list {
+    flex: 1.2;
+  }
+  
+  .task-list h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #007bff;
+  }
+  
+  .task {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .task:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .task h3 {
+    margin: 0 0 8px;
+  }
+  
+  .task p {
+    margin: 0;
+  }
+  
+  /* Tambah tugas */
+  .add-task {
+    margin-top: 30px;
+  }
+  
+  .add-task input {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  .add-task button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .add-task button:hover {
+    background-color: #218838;
+  }
+  
+  /* Detail tugas */
+  .task-detail {
+    flex: 0.8;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  }
+  
+  .task-detail h2 {
+    margin-top: 0;
+    color: #333;
+  }
+  
