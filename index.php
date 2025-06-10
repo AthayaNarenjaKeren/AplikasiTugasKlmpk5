@@ -1,89 +1,74 @@
 <?php
-session_start();
-if (!isset($_SESSION['login'])) {
-    header("Location: login.php");
-    exit;
-}
-?>
+include 'db.php'; // Mengandung session_start()
 
+// Periksa apakah user sudah login, jika tidak, redirect ke login.php
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Ambil data tugas dari database
+$sql = "SELECT t.idTugas, t.judul, t.deadline, t.status, t.prioritas, k.NamaKategori
+        FROM tugas t
+        LEFT JOIN kategori k ON t.id_kategori = k.idKategori
+        ORDER BY t.deadline ASC";
+$result = $conn->query($sql);
+?>
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aplikasi Tugas Harian</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Tugas Sederhana</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <h2>📋 TugasKu</h2>
-      <ul>
-        <li><a href="#">Tugas Harian</a></li>
-        <li><a href="#">Statistik</a></li>
-        <li><a href="#">Pengaturan</a></li>
-      </ul>
-    </aside>
-
-    <!-- Konten Utama -->
-    <main class="main">
-      <!-- Daftar Tugas -->
-      <section class="task-list">
-        <h1>Daftar Tugas Hari Ini</h1>
-        <div class="task" onclick="showDetail('Belajar React', 'Pelajari hooks dan lifecycle')">
-          <h3>📘 Belajar React</h3>
-          <p>Pelajari hooks dan lifecycle</p>
-        </div>
-        <div class="task" onclick="showDetail('Olahraga', 'Jogging pagi selama 30 menit')">
-          <h3>🏃 Olahraga</h3>
-          <p>Jogging pagi selama 30 menit</p>
-        </div>
-        <div class="task" onclick="showDetail('Mengerjakan PR', 'Kerjakan PR matematika bab 5')">
-          <h3>📝 Mengerjakan PR</h3>
-          <p>Kerjakan PR matematika bab 5</p>
+    <div class="container">
+        <div class="header-nav">
+            <h2>Daftar Tugas</h2>
+            <div class="links">
+                <span>Selamat Datang, <?php echo htmlspecialchars($_SESSION['username']); ?>!</span>
+                <a href="add.php">Tambah Tugas</a>
+                <a href="logout.php">Logout</a>
+            </div>
         </div>
 
-        <!-- Tambah Tugas -->
-        <div class="add-task">
-          <h2>➕ Tambah Tugas Baru</h2>
-          <input type="text" id="newTitle" placeholder="Judul Tugas" />
-          <input type="text" id="newDesc" placeholder="Deskripsi Tugas" />
-          <button onclick="addTask()">Tambah</button>
-        </div>
-      </section>
+        <?php
+        if (isset($_GET['message'])) {
+            $message_type = isset($_GET['type']) ? $_GET['type'] : 'success';
+            echo "<p class='message {$message_type}'>" . htmlspecialchars($_GET['message']) . "</p>";
+        }
+        ?>
 
-      <!-- Detail Tugas -->
-      <section class="task-detail">
-        <h2 id="detail-title">Pilih Tugas</h2>
-        <p id="detail-desc">Klik salah satu tugas untuk melihat detailnya.</p>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    function showDetail(title, desc) {
-      document.getElementById("detail-title").innerText = title;
-      document.getElementById("detail-desc").innerText = desc;
-    }
-
-    function addTask() {
-      const title = document.getElementById("newTitle").value;
-      const desc = document.getElementById("newDesc").value;
-
-      if (!title) return alert("Judul tidak boleh kosong!");
-
-      const task = document.createElement("div");
-      task.className = "task";
-      task.onclick = () => showDetail(title, desc);
-      task.innerHTML = <h3>🆕 ${title}</h3><p>${desc}</p>;
-
-      document.querySelector(".task-list").insertBefore(task, document.querySelector(".add-task"));
-
-      document.getElementById("newTitle").value = "";
-      document.getElementById("newDesc").value = "";
-    }
-  </script>
+        <?php if ($result->num_rows > 0): ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Judul</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>Prioritas</th>
+                        <th>Kategori</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?php echo $row["idTugas"]; ?></td>
+                        <td><?php echo htmlspecialchars($row["judul"]); ?></td>
+                        <td><?php echo $row["deadline"]; ?></td>
+                        <td class='status-<?php echo strtolower(str_replace(' ', '-', $row["status"])); ?>'><?php echo htmlspecialchars($row["status"]); ?></td>
+                        <td class='prioritas-<?php echo strtolower($row["prioritas"]); ?>'><?php echo htmlspecialchars($row["prioritas"]); ?></td>
+                        <td><?php echo (isset($row["NamaKategori"]) ? htmlspecialchars($row["NamaKategori"]) : "Tidak Ada"); ?></td>
+                    </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p style="text-align: center;">Tidak ada tugas yang ditemukan.</p>
+        <?php endif; ?>
+    </div>
+    <?php $conn->close(); // Tutup koneksi di akhir ?>
 </body>
 </html>
