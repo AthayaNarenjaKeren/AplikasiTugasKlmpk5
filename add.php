@@ -14,7 +14,7 @@ $categories_result = $conn->query($categories_query);
 $message = '';
 $message_type = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") 
     $judul = $_POST['judul'];
     $deadline = $_POST['deadline'];
     $status = $_POST['status'];
