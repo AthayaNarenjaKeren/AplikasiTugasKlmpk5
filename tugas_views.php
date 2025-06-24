@@ -1,15 +1,27 @@
-
 <?php
 include 'db.php'; // Koneksi database & session
 
-// Ambil data dari tiga view
-$sql_selesai = "SELECT * FROM view_tugas_selesai";
-$sql_proses = "SELECT * FROM view_tugas_diproses";
-$sql_belum = "SELECT * FROM view_tugas_belum_selesai";
+$filter = $_GET['filter'] ?? 'semua';
 
-$selesai = $conn->query($sql_selesai);
-$proses = $conn->query($sql_proses);
-$belum = $conn->query($sql_belum);
+if ($filter === 'belum') {
+    $query = "SELECT * FROM view_tugas_belum_selesai";
+} elseif ($filter === 'proses') {
+    $query = "SELECT * FROM view_tugas_diproses";
+} elseif ($filter === 'selesai') {
+    $query = "SELECT * FROM view_tugas_selesai";
+} else {
+    $query = "SELECT * FROM tugas"; // Semua
+}
+
+// Statistik Agregat
+$jumlah_tugas = $conn->query("SELECT COUNT(*) AS total FROM tugas")->fetch_assoc()['total'];
+$jumlah_selesai = $conn->query("SELECT COUNT(*) AS total FROM tugas WHERE status = 'Selesai'")->fetch_assoc()['total'];
+$jumlah_belum = $conn->query("SELECT COUNT(*) AS total FROM tugas WHERE status = 'Belum Selesai'")->fetch_assoc()['total'];
+$jumlah_terlambat = $conn->query("SELECT COUNT(*) AS total FROM tugas WHERE status = 'Terlambat'")->fetch_assoc()['total'];
+$deadline_terdekat = $conn->query("SELECT MIN(deadline) AS min_deadline FROM tugas")->fetch_assoc()['min_deadline'];
+$deadline_terjauh = $conn->query("SELECT MAX(deadline) AS max_deadline FROM tugas")->fetch_assoc()['max_deadline'];
+
+$result = $conn->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -17,71 +29,72 @@ $belum = $conn->query($sql_belum);
 
 <head>
     <meta charset="UTF-8">
-    <title>Daftar Tugas Berdasarkan Status</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Daftar Tugas</title>
+    <link rel="stylesheet" href="styles.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
-    <!-- Navbar -->
+    <!-- Navbar Utama -->
     <nav class="navbar">
         <div class="navbar-brand">TugasKu</div>
         <ul class="navbar-menu">
             <li><a href="index.php">Beranda</a></li>
-            <li><a href="tugas_views.php">Tugas</a></li>
-            <li><a href="add.php">Tambah</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </nav>
 
-        <!-- BELUM SELESAI -->
-        <h3 class="status-belum-selesai">Belum Selesai</h3>
-        <table>
-            <tr>
-                <th>Nama Tugas</th>
-                <th>Deadline</th>
-                <th>Status</th>
-            </tr>
-            <?php while ($row = $belum->fetch_assoc()): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['judul']) ?></td>
-                    <td><?= htmlspecialchars($row['deadline']) ?></td>
-                    <td class="status-belum-selesai"><?= htmlspecialchars($row['status']) ?></td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
+    <!-- Submenu Filter Tugas -->
+    <div class="filter-navbar">
+        <a href="tugas_views.php?filter=semua" class="<?= $filter === 'semua' ? 'active' : '' ?>">Semua</a>
+        <a href="tugas_views.php?filter=belum" class="<?= $filter === 'belum' ? 'active' : '' ?>">Belum Selesai</a>
+        <a href="tugas_views.php?filter=proses" class="<?= $filter === 'proses' ? 'active' : '' ?>">Sedang Diproses</a>
+        <a href="tugas_views.php?filter=selesai" class="<?= $filter === 'selesai' ? 'active' : '' ?>">Selesai</a>
+    </div>
 
-        <!-- DIPROSES -->
-        <h3 class="status-terlambat">Sedang Diproses</h3>
-        <table>
-            <tr>
-                <th>Nama Tugas</th>
-                <th>Deadline</th>
-                <th>Status</th>
-            </tr>
-            <?php while ($row = $proses->fetch_assoc()): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['NamaTugas']) ?></td>
-                    <td><?= htmlspecialchars($row['Deadline']) ?></td>
-                    <td class="status-terlambat"><?= htmlspecialchars($row['Status']) ?></td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
+    <div class="container">
+        <h2 class="judul-halaman">Daftar Tugas
+            <?= $filter !== 'semua' ? '(' . ucfirst($filter) . ')' : '' ?>
+        </h2>
+        <div class="statistik-box">
 
-        <!-- SELESAI -->
-        <h3 class="status-selesai">Selesai</h3>
+            <h3>📊 Statistik Tugas</h3>
+            <ul>
+                <li>Total Tugas: <strong><?= $jumlah_tugas ?></strong></li>
+                <li>Selesai: <strong><?= $jumlah_selesai ?></strong></li>
+                <li>Belum Selesai: <strong><?= $jumlah_belum ?></strong></li>
+                <li>Terlambat: <strong><?= $jumlah_terlambat ?></strong></li>
+                <li>Deadline Terdekat: <strong><?= $deadline_terdekat ?></strong></li>
+                <li>Deadline Terjauh: <strong><?= $deadline_terjauh ?></strong></li>
+            </ul>
+        </div>
+
         <table>
             <tr>
                 <th>Nama Tugas</th>
                 <th>Deadline</th>
                 <th>Status</th>
+                <th>Aksi</th> <!-- Tambahan -->
             </tr>
-            <?php while ($row = $selesai->fetch_assoc()): ?>
+            <?php while ($row = $result->fetch_assoc()) {
+                $id = $row['idTugas'] ?? $row['id'] ?? null;
+                $judul = htmlspecialchars($row['judul'] ?? $row['NamaTugas']);
+                $deadline = htmlspecialchars($row['deadline'] ?? $row['Deadline']);
+                $status = htmlspecialchars($row['status'] ?? $row['Status']);
+                $class = strtolower(str_replace(' ', '-', $status));
+                ?>
                 <tr>
-                    <td><?= htmlspecialchars($row['NamaTugas']) ?></td>
-                    <td><?= htmlspecialchars($row['Deadline']) ?></td>
-                    <td class="status-selesai"><?= htmlspecialchars($row['Status']) ?></td>
+                    <td><?= $judul ?></td>
+                    <td><?= $deadline ?></td>
+                    <td class="status-<?= $class ?>"><?= $status ?></td>
+                    <td>
+                        <?php if ($status !== "Selesai") { ?>
+                            <a href="selesaikan.php?id=<?= $id ?>" class="btn-aksi selesai">Selesaikan</a>
+                        <?php } ?>
+                        <a href="hapus.php?id=<?= $id ?>" class="btn-aksi hapus"
+                            onclick="return confirm('Yakin mau hapus tugas ini?');">Hapus</a>
+                    </td>
                 </tr>
-            <?php endwhile; ?>
+            <?php } ?>
         </table>
 
     </div>

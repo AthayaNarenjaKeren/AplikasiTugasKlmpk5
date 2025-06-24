@@ -1,9 +1,15 @@
-body {
-  font-family: Arial, sans-serif;
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
-  color: #333;
+}
+
+body {
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff5f7;
+  color: #555;
   line-height: 1.6;
 }
 
@@ -12,24 +18,29 @@ body {
   margin: 30px auto;
   background-color: #fff;
   padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(255, 182, 193, 0.2);
+  border: 1px solid #ffdfe8;
 }
 
-h2, h3 {
-  color: #0056b3;
+h2,
+h3 {
+  color: #ff6b8b;
   text-align: center;
   margin-bottom: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 /* NAVBAR STYLING */
 .navbar {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #ff9aae, #ff6b8b);
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
+  box-shadow: 0 3px 10px rgba(255, 107, 139, 0.3);
 }
 
 .navbar-brand {
@@ -54,119 +65,360 @@ h2, h3 {
   color: white;
   text-decoration: none;
   padding: 8px 15px;
-  border-radius: 5px;
-  background-color: #0056b3;
-  transition: background-color 0.3s ease;
+  border-radius: 20px;
+  background-color: #ff8fa3;
+  transition: all 0.3s ease;
 }
 
 .navbar-menu a:hover {
-  background-color: #003f80;
+  background-color: #ff477e;
+  transform: translateY(-2px);
 }
-
-
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(255, 182, 193, 0.1);
 }
 
-table th, table td {
-  border: 1px solid #ddd;
-  padding: 10px;
+table th,
+table td {
+  border: 1px solid #ffdfe8;
+  padding: 12px;
   text-align: left;
 }
 
 table th {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #ffb3c6, #ff8fab);
   color: white;
+  font-weight: 500;
 }
 
 table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #fff9fb;
+}
+
+table tr:hover {
+  background-color: #fff0f5;
 }
 
 /* Form Styles */
 form {
   background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(255, 182, 193, 0.1);
   margin-top: 20px;
+  border: 1px solid #ffdfe8;
 }
 
 form label {
   display: block;
-  margin-bottom: 7px;
-  font-weight: bold;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #ff6b8b;
 }
 
 form input[type="text"],
 form input[type="password"],
 form input[type="date"],
 form select {
-  width: calc(100% - 20px); /* Adjust for padding */
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #ffdfe8;
+  border-radius: 8px;
   font-size: 1em;
+  transition: all 0.3s ease;
+  background-color: #fff9fb;
 }
 
 form input[type="submit"] {
-  background-color: #28a745;
+  background: linear-gradient(135deg, #ffb3c6, #ff8fab);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 1em;
-  transition: background-color 0.3s ease;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(255, 179, 198, 0.3);
 }
 
 form input[type="submit"]:hover {
-  background-color: #218838;
+  background: linear-gradient(135deg, #ff8fab, #ff6b8b);
+  transform: translateY(-2px);
 }
 
 .message {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
   text-align: center;
+  font-weight: 500;
 }
 
 .message.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background-color: #f0fff4;
+  color: #2e8b57;
+  border: 1px solid #c6f6d5;
 }
 
 .message.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background-color: #fff0f3;
+  color: #d33f6a;
+  border: 1px solid #ffd6e7;
 }
 
-/* Login Page Specific */
+/* Status & Prioritas styling */
+.status-selesai {
+  color: #2e8b57;
+  font-weight: 500;
+  background-color: #f0fff4;
+  padding: 4px 10px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.status-belum-selesai {
+  color: #ffa500;
+  font-weight: 500;
+  background-color: #fff9e6;
+  padding: 4px 10px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.status-terlambat {
+  color: #d33f6a;
+  font-weight: 500;
+  background-color: #fff0f3;
+  padding: 4px 10px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.prioritas-tinggi {
+  color: #d33f6a;
+  font-weight: 500;
+}
+
+.prioritas-sedang {
+  color: #ffa500;
+  font-weight: 500;
+}
+
+.prioritas-rendah {
+  color: #2e8b57;
+  font-weight: 500;
+}
+
+/* SUB NAVBAR UNTUK FILTER TUGAS */
+.filter-navbar {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+  padding: 15px;
+  background-color: #fff9fb;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(255, 182, 193, 0.1);
+}
+
+.filter-navbar a {
+  background: linear-gradient(135deg, #ffd6e7, #ffb3c6);
+  color: #d33f6a;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  text-align: center;
+}
+
+.filter-navbar a:hover {
+  background: linear-gradient(135deg, #ffb3c6, #ff8fab);
+  color: white;
+}
+
+.filter-navbar a.active {
+  background: white;
+  color: #ff6b8b;
+  border: 1px solid #ff8fab;
+}
+
+.statistik-box {
+  background-color: #fff9fb;
+  border: 1px solid #ffdfe8;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(255, 182, 193, 0.05);
+}
+
+.statistik-box h3 {
+  margin-top: 0;
+  color: #ff6b8b;
+  font-size: 20px;
+}
+
+.statistik-box ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.statistik-box li {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* Kotak untuk tabel daftar tugas */
+.tabel-container {
+  background-color: white;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);
+  border: 1px solid #ffdfe8;
+}
+
+.btn-selesai,
+.btn-hapus {
+  padding: 8px 15px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  margin-right: 8px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-selesai {
+  background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+  color: #2e8b57;
+}
+
+.btn-selesai:hover {
+  background: linear-gradient(135deg, #8fd3b2, #c8e6a8);
+  transform: translateY(-2px);
+}
+
+.btn-hapus {
+  background: linear-gradient(135deg, #ffaaa5, #ff8b94);
+  color: white;
+}
+
+.btn-hapus:hover {
+  background: linear-gradient(135deg, #ff8b94, #ff6b7a);
+  transform: translateY(-2px);
+}
+
+/* Floating Button Effect */
+.btn-aksi {
+  padding: 8px 15px;
+  margin-right: 8px;
+  text-decoration: none;
+  border-radius: 25px;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-aksi.selesai {
+  background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+  color: #2e8b57;
+}
+
+.btn-aksi.hapus {
+  background: linear-gradient(135deg, #ffaaa5, #ff8b94);
+  color: white;
+}
+
+.btn-aksi:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* CSS untuk Form Login */
 .login-container {
   max-width: 350px;
-  margin: 80px auto;
-  background-color: #fff;
+  margin: 50px auto;
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(255, 182, 193, 0.2);
+  border: 1px solid #ffdfe8;
   text-align: center;
 }
 
 .login-container h2 {
+  color: #ff6b8b;
   margin-bottom: 25px;
+  font-size: 1.8em;
 }
 
-/* Status & Prioritas styling */
-.status-selesai { color: #28a745; font-weight: bold; }
-.status-belum-selesai { color: #ffc107; font-weight: bold; }
-.status-terlambat { color: #dc3545; font-weight: bold; }
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-.prioritas-tinggi { color: #dc3545; font-weight: bold; }
-.prioritas-sedang { color: #ffc107; }
-.prioritas-rendah { color: #28a745; }
+.form-group {
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #ff6b8b;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ffdfe8;
+  border-radius: 8px;
+  background-color: #fff9fb;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #ff6b8b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 139, 0.2);
+}
+
+.login-btn {
+  background: linear-gradient(135deg, #ffb3c6, #ff8fab);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  background: linear-gradient(135deg, #ff8fab, #ff6b8b);
+  transform: translateY(-2px);
+}
+
+.logout-message {
+  color: #ff6b8b;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fff0f5;
+  border-radius: 8px;
+  border: 1px solid #ffdfe8;
+}

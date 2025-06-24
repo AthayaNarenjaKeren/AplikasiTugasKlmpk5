@@ -14,14 +14,15 @@ $sql = "SELECT t.idTugas, t.judul, t.deadline, t.status, t.prioritas, k.NamaKate
         ORDER BY t.deadline ASC";
 $result = $conn->query($sql);
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Tugas Sederhana</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=<?= time() ?>">
 </head>
 
 <body>
@@ -36,48 +37,55 @@ $result = $conn->query($sql);
         </ul>
     </nav>
 
-    <?php
-    if (isset($_GET['message'])) {
-        $message_type = isset($_GET['type']) ? $_GET['type'] : 'success';
-        echo "<p class='message {$message_type}'>" . htmlspecialchars($_GET['message']) . "</p>";
-    }
-    ?>
+    <!-- Pesan Sukses/Gagal -->
+    <?php if (isset($_GET['message'])): ?>
+        <?php $message_type = $_GET['type'] ?? 'success'; ?>
+        <p class="message <?= $message_type ?>"><?= htmlspecialchars($_GET['message']) ?></p>
+    <?php endif; ?>
 
+    <!-- Tabel Daftar Tugas -->
     <?php if ($result->num_rows > 0): ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Judul</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
-                    <th>Prioritas</th>
-                    <th>Kategori</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
+        <div class="tabel-container">
+            <!-- Tambah kolom Aksi -->
+            <table>
+                <thead>
                     <tr>
-                        <td><?php echo $row["idTugas"]; ?></td>
-                        <td><?php echo htmlspecialchars($row["judul"]); ?></td>
-                        <td><?php echo $row["deadline"]; ?></td>
-                        <td class='status-<?php echo strtolower(str_replace(' ', '-', $row["status"])); ?>'>
-                            <?php echo htmlspecialchars($row["status"]); ?>
-                        </td>
-                        <td class='prioritas-<?php echo strtolower($row["prioritas"]); ?>'>
-                            <?php echo htmlspecialchars($row["prioritas"]); ?>
-                        </td>
-                        <td><?php echo (isset($row["NamaKategori"]) ? htmlspecialchars($row["NamaKategori"]) : "Tidak Ada"); ?>
-                        </td>
+                        <th>Nama Tugas</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>Aksi</th> <!-- Tambahan -->
                     </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()) {
+                        $judul = htmlspecialchars($row['judul'] ?? $row['NamaTugas']);
+                        $deadline = htmlspecialchars($row['deadline'] ?? $row['Deadline']);
+                        $status = htmlspecialchars($row['status'] ?? $row['Status']);
+                        $class = strtolower(str_replace(' ', '-', $status));
+                        $idTugas = $row['idTugas'] ?? $row['id'] ?? null;
+                        ?>
+                        <tr>
+                            <td><?= $judul ?></td>
+                            <td><?= $deadline ?></td>
+                            <td class="status-<?= $class ?>"><?= $status ?></td>
+                            <td>
+                                <?php if ($status !== "Selesai"): ?>
+                                    <a href="selesaikan.php?id=<?= $idTugas ?>" class="btn-selesai">Selesai</a>
+                                <?php endif; ?>
+                                <a href="hapus.php?id=<?= $idTugas ?>" onclick="return confirm('Yakin ingin menghapus?')"
+                                    class="btn-hapus">Hapus</a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+
+        </div>
     <?php else: ?>
         <p style="text-align: center;">Tidak ada tugas yang ditemukan.</p>
     <?php endif; ?>
-    </div>
-    <?php $conn->close(); // Tutup koneksi di akhir ?>
+
+    <?php $conn->close(); ?>
 </body>
 
 </html>
