@@ -22,28 +22,48 @@ h2, h3 {
   margin-bottom: 20px;
 }
 
-.header-nav {
+/* NAVBAR STYLING */
+.navbar {
+  background-color: #007bff;
+  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 15px;
+  color: white;
 }
 
-.header-nav .links a {
-  background-color: #007bff;
+.navbar-brand {
+  font-size: 1.5em;
+  font-weight: bold;
   color: white;
-  padding: 8px 15px;
   text-decoration: none;
+}
+
+.navbar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-menu li {
+  margin-left: 20px;
+}
+
+.navbar-menu a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
   border-radius: 5px;
-  margin-left: 10px;
+  background-color: #0056b3;
   transition: background-color 0.3s ease;
 }
 
-.header-nav .links a:hover {
-  background-color: #0056b3;
+.navbar-menu a:hover {
+  background-color: #003f80;
 }
+
+
 
 table {
   width: 100%;

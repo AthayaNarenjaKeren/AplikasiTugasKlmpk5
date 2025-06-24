@@ -14,7 +14,7 @@ $categories_result = $conn->query($categories_query);
 $message = '';
 $message_type = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $judul = $_POST['judul'];
     $deadline = $_POST['deadline'];
     $status = $_POST['status'];
@@ -43,61 +43,66 @@ $conn->close(); // Tutup koneksi
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Tugas Baru</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="container">
-        <div class="header-nav">
-            <h2>Tambah Tugas Baru</h2>
-            <div class="links">
-                <a href="index.php">Kembali ke Daftar Tugas</a>
-                <a href="logout.php">Logout</a>
-            </div>
-        </div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">TugasKu</div>
+        <ul class="navbar-menu">
+            <li><a href="index.php">Beranda</a></li>
+            <li><a href="tugas_views.php">Tugas</a></li>
+            <li><a href="add.php">Tambah</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </nav>
+    <?php if ($message): ?>
+        <p class="message <?php echo $message_type; ?>"><?php echo htmlspecialchars($message); ?></p>
+    <?php endif; ?>
 
-        <?php if ($message): ?>
-            <p class="message <?php echo $message_type; ?>"><?php echo htmlspecialchars($message); ?></p>
-        <?php endif; ?>
+    <form action="add.php" method="POST">
+        <label for="judul">Judul Tugas:</label>
+        <input type="text" id="judul" name="judul" required>
 
-        <form action="add.php" method="POST">
-            <label for="judul">Judul Tugas:</label>
-            <input type="text" id="judul" name="judul" required>
+        <label for="deadline">Deadline:</label>
+        <input type="date" id="deadline" name="deadline" required>
 
-            <label for="deadline">Deadline:</label>
-            <input type="date" id="deadline" name="deadline" required>
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="Belum Selesai">Belum Selesai</option>
+            <option value="Selesai">Selesai</option>
+            <option value="Terlambat">Terlambat</option>
+        </select>
 
-            <label for="status">Status:</label>
-            <select id="status" name="status" required>
-                <option value="Belum Selesai">Belum Selesai</option>
-                <option value="Selesai">Selesai</option>
-                <option value="Terlambat">Terlambat</option>
-            </select>
+        <label for="prioritas">Prioritas:</label>
+        <select id="prioritas" name="prioritas" required>
+            <option value="Rendah">Rendah</option>
+            <option value="Sedang">Sedang</option>
+            <option value="Tinggi">Tinggi</option>
+        </select>
 
-            <label for="prioritas">Prioritas:</label>
-            <select id="prioritas" name="prioritas" required>
-                <option value="Rendah">Rendah</option>
-                <option value="Sedang">Sedang</option>
-                <option value="Tinggi">Tinggi</option>
-            </select>
-
-            <label for="id_kategori">Kategori:</label>
-            <select id="id_kategori" name="id_kategori">
-                <option value="">-- Pilih Kategori --</option>
-                <?php
-                if ($categories_result->num_rows > 0) {
-                    while ($row = $categories_result->fetch_assoc()) {
-                        echo "<option value='" . $row['idKategori'] . "'>" . htmlspecialchars($row['NamaKategori']) . "</option>";
-                    }
+        <label for="id_kategori">Kategori:</label>
+        <select id="id_kategori" name="id_kategori">
+            <option value="">-- Pilih Kategori --</option>
+            <?php
+            if ($categories_result->num_rows > 0) {
+                while ($row = $categories_result->fetch_assoc()) {
+                    echo "<option value='" . $row['idKategori'] . "'>" . htmlspecialchars($row['NamaKategori']) . "</option>";
                 }
-                ?>
-            </select>
+            }
+            ?>
+        </select>
 
-            <input type="submit" value="Simpan Tugas">
-        </form>
+
+        <input type="submit" value="Simpan Tugas">
+    </form>
     </div>
 </body>
+
 </html>
