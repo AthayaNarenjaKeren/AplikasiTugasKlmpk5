@@ -330,9 +330,25 @@ form input[type="submit"]:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+
 .btn-aksi.selesai {
   background: linear-gradient(135deg, #a8e6cf, #dcedc1);
   color: #2e8b57;
+}
+
+.btn-aksi.edit {
+  background: linear-gradient(135deg, #ffe699, #ffd166);
+  color: #8a6d00;
+}
+
+.btn-aksi.kerjakan {
+  background: linear-gradient(135deg, #ffb3c6, #ff8fab);
+  color: white;
+}
+
+.btn-aksi.edit:hover {
+  background: linear-gradient(135deg, #ffd166, #ffc107);
+  transform: translateY(-2px);
 }
 
 .btn-aksi.hapus {
@@ -343,6 +359,16 @@ form input[type="submit"]:hover {
 .btn-aksi:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-aksi.proses {
+  background: linear-gradient(135deg, #a0c4ff, #bdb2ff);
+  color: #1a237e;
+}
+
+.btn-aksi.proses:hover {
+  background: linear-gradient(135deg, #bdb2ff, #a0c4ff);
+  transform: translateY(-2px);
 }
 
 /* CSS untuk Form Login */
@@ -422,3 +448,4 @@ form input[type="submit"]:hover {
   border-radius: 8px;
   border: 1px solid #ffdfe8;
 }
+

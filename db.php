@@ -1,8 +1,11 @@
 <?php
+// Start session di baris paling atas sebelum apapun
+session_start();
+
 // Database connection settings
 $servername = "localhost";
-$username = "root"; // Ganti dengan username database Anda
-$password = "";     // Ganti dengan password database Anda
+$username = "root"; 
+$password = "";    
 $dbname = "aplikasitugas";
 
 // Create connection
@@ -12,7 +15,4 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Start session (penting untuk login/logout)
-session_start();
 ?>
